@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Kenya — 2KM Collection Referral Programme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        /* ─── Reset & Base ─── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Source Sans 3', Arial, sans-serif;
+            background: #FFFFFF;
+            color: #1F1F1F;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── Design Tokens ─── */
+        :root {
+            --kenya-red: #C8102E;
+            --kenya-green: #007A5E;
+            --kenya-black: #1F1F1F;
+            --kenya-gold: #D4AF37;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #727272;
+        }
+
+        /* ─── Navigation ─── */
+        .nav {
+            background: var(--white);
+            border-bottom: 2px solid var(--kenya-red);
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .nav-logo img { height: 48px; object-fit: contain; }
+        .nav-brand {
+            font-family: 'Oswald', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--kenya-black);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .nav-brand .red { color: var(--kenya-red); }
+        .nav-tagline {
+            font-family: 'Oswald', sans-serif;
+            font-size: 9px;
+            color: var(--dark-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: block;
+            margin-top: -2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--kenya-black);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--kenya-green); }
+        .nav-links a.active { color: var(--kenya-red); border-bottom: 2px solid var(--kenya-red); padding-bottom: 2px; }
+
+        /* ─── Hero Section ─── */
+        .hero {
+            background: var(--kenya-black);
+            color: var(--white);
+            padding: 80px 32px 72px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 6px;
+            background: repeating-linear-gradient(90deg, var(--kenya-red) 0, var(--kenya-red) 40px, transparent 40px, transparent 50px);
+        }
+        .hero-eyebrow {
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--kenya-red);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            line-height: 0.95;
+            margin-bottom: 8px;
+        }
+        .hero h1 .red { color: var(--kenya-red); }
+        .hero .subtitle {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            color: var(--kenya-gold);
+            letter-spacing: 0.05em;
+            margin-bottom: 24px;
+        }
+        .hero p {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.6;
+            color: #ccc;
+            max-width: 580px;
+            margin: 0 auto 36px;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        /* Primary Button */
+        .btn-primary {
+            display: inline-block;
+            background: var(--kenya-red);
+            color: var(--white);
+            padding: 16px 32px;
+            border: 2px solid var(--kenya-red);
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+        }
+        .btn-primary:hover { background: var(--white); color: var(--kenya-red); transform: scale(1.05); }
+        .btn-primary:active { transform: scale(0.95); }
+        /* Secondary Button */
+        .btn-secondary {
+            display: inline-block;
+            background: var(--white);
+            color: var(--kenya-black);
+            padding: 16px 32px;
+            border: 2px solid var(--kenya-black);
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+        }
+        .btn-secondary:hover { background: var(--kenya-green); color: var(--white); border-color: var(--kenya-green); transform: scale(1.05); }
+        .btn-secondary:active { transform: scale(0.95); }
+
+        /* ─── Track Lane Divider ─── */
+        .track-divider {
+            height: 4px;
+            background: repeating-linear-gradient(90deg, var(--kenya-red) 0, var(--kenya-red) 40px, transparent 40px, transparent 50px);
+        }
+
+        /* ─── Section Styling ─── */
+        .section {
+            padding: 64px 32px;
+        }
+        .section-light { background: var(--white); }
+        .section-gray { background: var(--light-gray); }
+        .section-dark { background: var(--kenya-black); color: var(--white); }
+        .section-green { background: var(--kenya-green); color: var(--white); }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .section-eyebrow {
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            color: var(--kenya-red);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 8px;
+        }
+        .section-dark .section-eyebrow { color: var(--kenya-gold); }
+        .section-green .section-eyebrow { color: var(--kenya-gold); }
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+        }
+        .section-desc {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 16px;
+            color: var(--dark-gray);
+            line-height: 1.6;
+            max-width: 560px;
+            margin: 12px auto 0;
+        }
+        .section-dark .section-desc { color: #bbb; }
+        .section-green .section-desc { color: rgba(255,255,255,0.85); }
+
+        /* ─── Tiers Grid ─── */
+        .tiers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .tier-card {
+            background: var(--white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.3s ease-out;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .tier-card:hover { transform: scale(1.02); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+        .tier-card.featured {
+            border: 2px solid var(--kenya-red);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tier-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 56px;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .tier-card:nth-child(1) .tier-number { color: var(--kenya-green); }
+        .tier-card:nth-child(2) .tier-number { color: var(--kenya-red); }
+        .tier-card:nth-child(3) .tier-number { color: var(--kenya-gold); }
+        .tier-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            margin-bottom: 4px;
+        }
+        .tier-card:nth-child(1) .tier-name { color: var(--kenya-green); }
+        .tier-card:nth-child(2) .tier-name { color: var(--kenya-red); }
+        .tier-card:nth-child(3) .tier-name { color: var(--kenya-gold); }
+        .tier-count {
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            color: var(--dark-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+        .tier-reward {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* ─── How It Works ─── */
+        .steps-container {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 32px;
+            position: relative;
+        }
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 21px;
+            top: 50px;
+            bottom: -16px;
+            width: 2px;
+            background: var(--medium-gray);
+        }
+        .step-num {
+            width: 44px;
+            height: 44px;
+            background: var(--kenya-red);
+            color: var(--white);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border-radius: 4px;
+        }
+        .step-content h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: var(--kenya-black);
+            margin-bottom: 4px;
+        }
+        .step-content p {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* ─── Diaspora Callout ─── */
+        .section-green .cta-gold {
+            display: inline-block;
+            background: var(--kenya-gold);
+            color: var(--kenya-black);
+            padding: 16px 32px;
+            border: 2px solid var(--kenya-gold);
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: all 0.2s ease-out;
+        }
+        .section-green .cta-gold:hover { background: var(--white); color: var(--kenya-black); transform: scale(1.05); }
+        .section-green .cta-gold:active { transform: scale(0.95); }
+
+        /* ─── Footer ─── */
+        .footer {
+            background: var(--kenya-black);
+            border-top: 2px solid var(--kenya-red);
+            padding: 32px;
+            text-align: center;
+        }
+        .footer p {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 13px;
+            color: var(--dark-gray);
+            margin-bottom: 4px;
+        }
+        .footer a { color: var(--kenya-red); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+
+        /* ─── Diagonal Cut ─── */
+        .diagonal-top { clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%); margin-top: -40px; padding-top: 100px; }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 768px) {
+            .nav { padding: 0 16px; height: 64px; }
+            .nav-links { display: none; }
+            .hero { padding: 48px 16px 40px; }
+            .hero h1 { font-size: 28px; }
+            .hero .subtitle { font-size: 18px; }
+            .hero p { font-size: 16px; }
+            .btn-primary, .btn-secondary { padding: 12px 24px; font-size: 14px; }
+            .section { padding: 48px 16px; }
+            .section-title { font-size: 24px; }
+            .tiers-grid { grid-template-columns: 1fr; gap: 16px; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/static/nock_logo.png" alt="National Olympic Committee of Kenya">
+            <div>
+                <span class="nav-brand">TEAM <span class="red">KENYA</span></span>
+                <span class="nav-tagline">Official Team Kenya Platform</span>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="https://www.teamkenya.co.ke" target="_blank">Home</a></li>
+            <li><a href="/" class="active">Referral Programme</a></li>
+            <li><a href="/dashboard">My Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-eyebrow">Official Referral Programme &mdash; Road to LA 2028</div>
+        <h1>JOIN THE <span class="red">TEAM KENYA</span><br>WAITLIST</h1>
+        <div class="subtitle">2KM COLLECTION</div>
+        <p>
+            Be first in line for the official Team Kenya 2KM Collection.
+            Refer friends to unlock exclusive rewards &mdash; from early access discounts
+            to free international shipping for our diaspora community worldwide.
+        </p>
+        <div class="hero-buttons">
+            <a href="https://tally.so/r/eqN5PQ" class="btn-primary">Join the Waitlist</a>
+            <a href="/dashboard" class="btn-secondary">Check My Referrals</a>
+        </div>
+    </section>
+
+    <div class="track-divider"></div>
+
+    <!-- Reward Tiers -->
+    <section class="section section-light">
+        <div class="section-header">
+            <div class="section-eyebrow">Rewards</div>
+            <h2 class="section-title">Referral Reward Tiers</h2>
+            <p class="section-desc">Share your unique link. Hit milestones. Unlock rewards. Every referral counts towards Team Kenya glory.</p>
+        </div>
+        <div class="tiers-grid">
+            <div class="tier-card">
+                <div class="tier-number">5</div>
+                <div class="tier-name">The Trailblazer</div>
+                <div class="tier-count">5 Referrals</div>
+                <div class="tier-reward">Early access to the 2KM Collection + 10% launch discount on your first order.</div>
+            </div>
+            <div class="tier-card featured">
+                <div class="tier-number">10</div>
+                <div class="tier-name">The Captain</div>
+                <div class="tier-count">10 Referrals</div>
+                <div class="tier-reward">VIP access to limited drops + an exclusive Team Kenya merchandise item.</div>
+            </div>
+            <div class="tier-card">
+                <div class="tier-number">15</div>
+                <div class="tier-name">Diaspora Champion</div>
+                <div class="tier-count">15 Referrals</div>
+                <div class="tier-reward">Free international shipping on your first order + exclusive Diaspora Member Badge.</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="track-divider"></div>
+
+    <!-- How It Works -->
+    <section class="section section-gray">
+        <div class="section-header">
+            <div class="section-eyebrow">Process</div>
+            <h2 class="section-title">How It Works</h2>
+        </div>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Join the Waitlist</h3>
+                    <p>Fill out the quick form with your details and merchandise preferences. Takes under 2 minutes.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Get Your Unique Link</h3>
+                    <p>You'll receive a personal referral link via email. Share it anywhere &mdash; WhatsApp, X, Instagram, or direct message.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Refer Friends &amp; Family</h3>
+                    <p>Every friend who signs up through your link counts as a referral. Track your progress on your dashboard in real time.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Unlock Rewards</h3>
+                    <p>Hit 5, 10, or 15 referrals to unlock increasingly valuable rewards &mdash; from discounts to free international shipping.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="track-divider"></div>
+
+    <!-- Diaspora Callout -->
+    <section class="section section-green diagonal-top">
+        <div class="section-header">
+            <div class="section-eyebrow">Global Community</div>
+            <h2 class="section-title">Calling All Kenyans Abroad</h2>
+            <p class="section-desc">
+                Whether you're in London, New York, Toronto, or anywhere in the world &mdash;
+                the 2KM Collection is for you. Reach the Diaspora Champion tier and we'll
+                cover your international shipping. Represent Team Kenya, wherever you are.
+            </p>
+        </div>
+        <div style="text-align:center;">
+            <a href="https://tally.so/r/eqN5PQ" class="cta-gold">Join From Anywhere</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p style="color:#fff;">Team Kenya (NOCK) &times; ReplicaDX &mdash; 2KM Collection Referral Programme</p>
+        <p>Questions? Contact <a href="mailto:info@replicadx.net">info@replicadx.net</a></p>
+        <p style="margin-top:8px;">&copy; 2026 Team Kenya. All rights reserved.</p>
+    </footer>
+</body>
+</html>

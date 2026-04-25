@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Kenya — Your Referral Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Source Sans 3', Arial, sans-serif;
+            background: #F5F5F5;
+            color: #1F1F1F;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        :root {
+            --kenya-red: #C8102E;
+            --kenya-green: #007A5E;
+            --kenya-black: #1F1F1F;
+            --kenya-gold: #D4AF37;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #727272;
+        }
+
+        /* ─── Navigation ─── */
+        .nav {
+            background: var(--white);
+            border-bottom: 2px solid var(--kenya-red);
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .nav-logo img { height: 48px; object-fit: contain; }
+        .nav-brand {
+            font-family: 'Oswald', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--kenya-black);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .nav-brand .red { color: var(--kenya-red); }
+        .nav-tagline {
+            font-family: 'Oswald', sans-serif;
+            font-size: 9px;
+            color: var(--dark-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: block;
+            margin-top: -2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--kenya-black);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--kenya-green); }
+        .nav-links a.active { color: var(--kenya-red); border-bottom: 2px solid var(--kenya-red); padding-bottom: 2px; }
+
+        /* ─── Track Lane Divider ─── */
+        .track-divider {
+            height: 4px;
+            background: repeating-linear-gradient(90deg, var(--kenya-red) 0, var(--kenya-red) 40px, transparent 40px, transparent 50px);
+        }
+
+        /* ─── Page Header ─── */
+        .page-header {
+            background: var(--kenya-black);
+            color: var(--white);
+            padding: 48px 32px 40px;
+            text-align: center;
+        }
+        .page-header .eyebrow {
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            color: var(--kenya-red);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 8px;
+        }
+        .page-header h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+        }
+
+        /* ─── Container ─── */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 32px;
+        }
+
+        /* ─── Card ─── */
+        .card {
+            background: var(--white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .card.featured {
+            border: 2px solid var(--kenya-red);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .card-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: var(--kenya-black);
+            margin-bottom: 16px;
+        }
+
+        /* ─── Referral Link Box ─── */
+        .ref-link-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--light-gray);
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+        }
+        .ref-link-box input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            color: var(--kenya-black);
+            outline: none;
+        }
+        .btn-copy {
+            background: var(--kenya-red);
+            color: var(--white);
+            border: none;
+            padding: 8px 16px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-copy:hover { background: #a00d24; transform: scale(1.05); }
+        .btn-copy:active { transform: scale(0.95); }
+
+        /* ─── Share Buttons ─── */
+        .share-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .share-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            border: 2px solid;
+            transition: all 0.2s ease-out;
+        }
+        .share-btn:hover { transform: scale(1.05); }
+        .share-btn:active { transform: scale(0.95); }
+        .share-whatsapp { background: var(--kenya-green); color: var(--white); border-color: var(--kenya-green); }
+        .share-whatsapp:hover { background: var(--white); color: var(--kenya-green); }
+        .share-x { background: var(--kenya-black); color: var(--white); border-color: var(--kenya-black); }
+        .share-x:hover { background: var(--white); color: var(--kenya-black); }
+        .share-email { background: var(--kenya-red); color: var(--white); border-color: var(--kenya-red); }
+        .share-email:hover { background: var(--white); color: var(--kenya-red); }
+
+        /* ─── Stats Row ─── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-box {
+            background: var(--white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            line-height: 1;
+            color: var(--kenya-red);
+        }
+        .stat-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--dark-gray);
+            margin-top: 4px;
+        }
+
+        /* ─── Progress Bar ─── */
+        .progress-section { margin-bottom: 8px; }
+        .progress-label {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            color: var(--dark-gray);
+            margin-bottom: 8px;
+        }
+        .progress-label strong { color: var(--kenya-red); font-weight: 600; }
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: var(--medium-gray);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.6s ease-out;
+        }
+        .fill-red { background: var(--kenya-red); }
+        .fill-green { background: var(--kenya-green); }
+        .fill-gold { background: var(--kenya-gold); }
+        .progress-milestones {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 6px;
+        }
+        .milestone-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--dark-gray);
+        }
+        .milestone-label.reached { color: var(--kenya-red); font-weight: 700; }
+
+        /* ─── Tiers Table ─── */
+        .tiers-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .tiers-table thead th {
+            background: var(--kenya-red);
+            color: var(--white);
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        .tiers-table tbody td {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--medium-gray);
+            color: var(--kenya-black);
+        }
+        .tiers-table tbody tr:hover { background: var(--light-gray); }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        .badge-locked { background: var(--medium-gray); color: var(--dark-gray); }
+        .badge-progress { background: var(--kenya-gold); color: var(--kenya-black); }
+        .badge-unlocked { background: var(--kenya-green); color: var(--white); }
+
+        /* ─── Empty State ─── */
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+        }
+        .empty-state h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--kenya-black);
+            margin-bottom: 12px;
+        }
+        .empty-state p {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 16px;
+            color: var(--dark-gray);
+            line-height: 1.6;
+            max-width: 480px;
+            margin: 0 auto 24px;
+        }
+        .btn-primary {
+            display: inline-block;
+            background: var(--kenya-red);
+            color: var(--white);
+            padding: 16px 32px;
+            border: 2px solid var(--kenya-red);
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: all 0.2s ease-out;
+        }
+        .btn-primary:hover { background: var(--white); color: var(--kenya-red); transform: scale(1.05); }
+        .btn-primary:active { transform: scale(0.95); }
+
+        /* ─── Lookup Form ─── */
+        .lookup-form {
+            display: flex;
+            gap: 8px;
+            max-width: 400px;
+            margin: 24px auto 0;
+        }
+        .lookup-form input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            outline: none;
+        }
+        .lookup-form input:focus { border-color: var(--kenya-red); }
+
+        /* ─── Footer ─── */
+        .footer {
+            background: var(--kenya-black);
+            border-top: 2px solid var(--kenya-red);
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        .footer p {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 13px;
+            color: var(--dark-gray);
+            margin-bottom: 4px;
+        }
+        .footer a { color: var(--kenya-red); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 768px) {
+            .nav { padding: 0 16px; height: 64px; }
+            .nav-links { display: none; }
+            .page-header { padding: 32px 16px 28px; }
+            .page-header h1 { font-size: 24px; }
+            .container { padding: 16px; }
+            .stats-row { grid-template-columns: 1fr; }
+            .stat-number { font-size: 36px; }
+            .share-row { flex-direction: column; }
+            .share-btn { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/static/nock_logo.png" alt="National Olympic Committee of Kenya">
+            <div>
+                <span class="nav-brand">TEAM <span class="red">KENYA</span></span>
+                <span class="nav-tagline">Official Team Kenya Platform</span>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="https://www.teamkenya.co.ke" target="_blank">Home</a></li>
+            <li><a href="/">Referral Programme</a></li>
+            <li><a href="/dashboard" class="active">My Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="eyebrow">2KM Collection</div>
+        <h1>Referral Dashboard</h1>
+    </div>
+    <div class="track-divider"></div>
+
+    <div class="container">
+        {% if referral_code %}
+
+        <!-- Referral Link Card -->
+        <div class="card featured">
+            <div class="card-title">Your Unique Referral Link</div>
+            <div class="ref-link-box">
+                <input type="text" value="{{ referral_link }}" id="refLink" readonly>
+                <button class="btn-copy" onclick="copyLink()">Copy Link</button>
+            </div>
+            <div class="share-row">
+                <a href="https://wa.me/?text=Join%20the%20Team%20Kenya%20waitlist%20and%20get%20exclusive%20access%20to%20the%202KM%20Collection!%20{{ referral_link }}" target="_blank" class="share-btn share-whatsapp">WhatsApp</a>
+                <a href="https://twitter.com/intent/tweet?text=I%20just%20joined%20the%20Team%20Kenya%20waitlist%20for%20the%202KM%20Collection!%20Join%20via%20my%20link%3A%20{{ referral_link }}&hashtags=TeamKenya,2KMCollection,RoadToLA2028" target="_blank" class="share-btn share-x">X / Twitter</a>
+                <a href="mailto:?subject=Join%20the%20Team%20Kenya%20Waitlist&body=Hey!%20I%20joined%20the%20Team%20Kenya%202KM%20Collection%20waitlist.%20Join%20through%20my%20referral%20link%20and%20we%20both%20unlock%20rewards%3A%20{{ referral_link }}" class="share-btn share-email">Email</a>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-number">{{ referral_count }}</div>
+                <div class="stat-label">Successful Referrals</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" style="color: var(--kenya-green);">{{ referrals_needed }}</div>
+                <div class="stat-label">Until Next Tier</div>
+            </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="card">
+            <div class="card-title">Your Progress</div>
+            <div class="progress-section">
+                <div class="progress-label">
+                    Current Tier: <strong>{{ current_tier }}</strong>
+                    {% if next_tier and referrals_needed > 0 %}
+                    &nbsp;&mdash;&nbsp; Next: {{ next_tier }}
+                    {% endif %}
+                </div>
+                {% set pct = (referral_count / 15 * 100) | int %}
+                {% if pct > 100 %}{% set pct = 100 %}{% endif %}
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill {% if referral_count >= 15 %}fill-gold{% elif referral_count >= 10 %}fill-green{% else %}fill-red{% endif %}" style="width: {{ pct }}%;"></div>
+                </div>
+                <div class="progress-milestones">
+                    <span class="milestone-label {% if referral_count >= 0 %}reached{% endif %}">0</span>
+                    <span class="milestone-label {% if referral_count >= 5 %}reached{% endif %}">5 &mdash; Trailblazer</span>
+                    <span class="milestone-label {% if referral_count >= 10 %}reached{% endif %}">10 &mdash; Captain</span>
+                    <span class="milestone-label {% if referral_count >= 15 %}reached{% endif %}">15 &mdash; Diaspora</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reward Tiers Table -->
+        <div class="card">
+            <div class="card-title">Reward Tiers</div>
+            <table class="tiers-table">
+                <thead>
+                    <tr>
+                        <th>Tier</th>
+                        <th>Referrals</th>
+                        <th>Reward</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>The Trailblazer</td>
+                        <td>5</td>
+                        <td>Early Access + 10% Discount</td>
+                        <td>
+                            {% if referral_count >= 5 %}
+                            <span class="badge badge-unlocked">Unlocked</span>
+                            {% else %}
+                            <span class="badge badge-progress">{{ referral_count }}/5</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>The Captain</td>
+                        <td>10</td>
+                        <td>VIP Access + Exclusive Merch</td>
+                        <td>
+                            {% if referral_count >= 10 %}
+                            <span class="badge badge-unlocked">Unlocked</span>
+                            {% elif referral_count >= 5 %}
+                            <span class="badge badge-progress">{{ referral_count }}/10</span>
+                            {% else %}
+                            <span class="badge badge-locked">Locked</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Diaspora Champion</td>
+                        <td>15</td>
+                        <td>Free Intl. Shipping + Badge</td>
+                        <td>
+                            {% if referral_count >= 15 %}
+                            <span class="badge badge-unlocked">Unlocked</span>
+                            {% elif referral_count >= 10 %}
+                            <span class="badge badge-progress">{{ referral_count }}/15</span>
+                            {% else %}
+                            <span class="badge badge-locked">Locked</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {% else %}
+
+        <!-- Empty State -->
+        <div class="card">
+            <div class="empty-state">
+                <h2>Join the Waitlist First</h2>
+                <p>
+                    Sign up for the Team Kenya 2KM Collection waitlist to get your unique referral link
+                    and start earning rewards.
+                </p>
+                <a href="https://tally.so/r/eqN5PQ" class="btn-primary">Join the Waitlist</a>
+                <form class="lookup-form" onsubmit="event.preventDefault(); window.location.href='/dashboard?email='+encodeURIComponent(document.getElementById('emailInput').value);">
+                    <input id="emailInput" type="email" placeholder="Or enter your email to check status">
+                    <button type="submit" class="btn-copy">Look Up</button>
+                </form>
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p style="color:#fff;">Team Kenya (NOCK) &times; ReplicaDX &mdash; 2KM Collection Referral Programme</p>
+        <p>Questions? Contact <a href="mailto:info@replicadx.net">info@replicadx.net</a></p>
+        <p style="margin-top:8px;">&copy; 2026 Team Kenya. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function copyLink() {
+            const input = document.getElementById('refLink');
+            input.select();
+            navigator.clipboard.writeText(input.value).then(() => {
+                const btn = document.querySelector('.btn-copy');
+                btn.textContent = 'COPIED!';
+                btn.style.background = '#007A5E';
+                setTimeout(() => {
+                    btn.textContent = 'COPY LINK';
+                    btn.style.background = '#C8102E';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

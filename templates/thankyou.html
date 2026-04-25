@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're on the List — Team Kenya</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --kenya-red: #C8102E;
+            --kenya-green: #007A5E;
+            --kenya-black: #1F1F1F;
+            --kenya-gold: #D4AF37;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #727272;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--white);
+            color: var(--kenya-black);
+            line-height: 1.6;
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            background: var(--white);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 3px solid var(--kenya-red);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar img { height: 40px; }
+        .navbar-brand {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--kenya-black);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .navbar-tag {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 10px;
+            color: var(--dark-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* ── Track Lane Divider ── */
+        .track-divider {
+            height: 4px;
+            background: repeating-linear-gradient(90deg, var(--kenya-red) 0, var(--kenya-red) 40px, transparent 40px, transparent 50px);
+        }
+
+        /* ── Hero Section ── */
+        .hero {
+            background: var(--kenya-black);
+            color: var(--white);
+            text-align: center;
+            padding: 60px 24px 50px;
+            position: relative;
+        }
+        .hero-emoji {
+            font-size: 64px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .hero h1 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 42px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            line-height: 0.95;
+            margin-bottom: 12px;
+        }
+        .hero h1 span { color: var(--kenya-red); }
+        .hero p {
+            font-size: 18px;
+            color: var(--medium-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ── Content Section ── */
+        .content {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        /* ── What Happens Next ── */
+        .next-steps {
+            background: var(--light-gray);
+            border-radius: 0;
+            padding: 40px 24px;
+        }
+        .next-steps .inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .next-steps h2 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: var(--kenya-black);
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+        .step-icon {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            background: var(--kenya-red);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+        }
+        .step-icon.green { background: var(--kenya-green); }
+        .step-icon.gold { background: var(--kenya-gold); color: var(--kenya-black); }
+        .step h3 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: var(--kenya-black);
+            margin-bottom: 4px;
+        }
+        .step p {
+            font-size: 15px;
+            color: var(--dark-gray);
+        }
+
+        /* ── Reward Tiers ── */
+        .tiers {
+            padding: 48px 24px;
+        }
+        .tiers .inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .tiers h2 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: var(--kenya-black);
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .tier-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--kenya-red);
+            background: var(--light-gray);
+        }
+        .tier-card.green { border-left-color: var(--kenya-green); }
+        .tier-card.gold { border-left-color: var(--kenya-gold); }
+        .tier-count {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 42px;
+            color: var(--kenya-red);
+            line-height: 1;
+            min-width: 50px;
+            text-align: center;
+        }
+        .tier-card.green .tier-count { color: var(--kenya-green); }
+        .tier-card.gold .tier-count { color: var(--kenya-gold); }
+        .tier-info h3 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: var(--kenya-black);
+            margin-bottom: 2px;
+        }
+        .tier-info p {
+            font-size: 14px;
+            color: var(--dark-gray);
+        }
+
+        /* ── Contact / Help ── */
+        .help-section {
+            background: var(--kenya-black);
+            color: var(--white);
+            text-align: center;
+            padding: 40px 24px;
+        }
+        .help-section p {
+            font-size: 15px;
+            color: var(--medium-gray);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .help-section a {
+            color: var(--kenya-gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .help-section .tagline {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            text-transform: uppercase;
+            color: var(--white);
+            margin-top: 20px;
+            letter-spacing: 0.02em;
+        }
+        .help-section .flag { font-size: 28px; margin-top: 8px; display: block; }
+
+        /* ── Mobile ── */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 28px; }
+            .hero p { font-size: 16px; }
+            .step { flex-direction: column; gap: 12px; }
+            .step-icon { width: 40px; height: 40px; font-size: 20px; min-width: 40px; }
+            .tier-card { flex-direction: column; text-align: center; gap: 12px; }
+            .tier-count { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <img src="/static/nock_logo.png" alt="National Olympic Committee of Kenya">
+        <div>
+            <div class="navbar-brand">Team Kenya</div>
+            <div class="navbar-tag">Official Team Kenya Platform</div>
+        </div>
+    </nav>
+    <div class="track-divider"></div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <span class="hero-emoji">🎉</span>
+        <h1>You're on the <span>List</span>, Champion!</h1>
+        <p>Welcome to the New Era of Team Kenya. You've taken the first step — now let's build the team together.</p>
+    </section>
+    <div class="track-divider"></div>
+
+    <!-- What Happens Next -->
+    <section class="next-steps">
+        <div class="inner">
+            <h2>What Happens Next</h2>
+
+            <div class="step">
+                <div class="step-icon">1</div>
+                <div>
+                    <h3>Check Your Email</h3>
+                    <p>We're sending you a personal referral link within the next few minutes. Check your inbox (and spam folder, just in case).</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-icon green">2</div>
+                <div>
+                    <h3>Share Your Link</h3>
+                    <p>Send your unique referral link to friends, family, and fellow Kenyans — at home and across the globe. WhatsApp, X, email — whatever works.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-icon gold">3</div>
+                <div>
+                    <h3>Unlock Exclusive Rewards</h3>
+                    <p>The more people you refer, the bigger the rewards. Track your progress on your personal dashboard anytime.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="track-divider"></div>
+
+    <!-- Reward Tiers -->
+    <section class="tiers">
+        <div class="inner">
+            <h2>Reward Tiers</h2>
+
+            <div class="tier-card">
+                <div class="tier-count">5</div>
+                <div class="tier-info">
+                    <h3>🏃 The Trailblazer</h3>
+                    <p>Early Access to the 2KM Collection + 10% Discount on your first order</p>
+                </div>
+            </div>
+
+            <div class="tier-card green">
+                <div class="tier-count">10</div>
+                <div class="tier-info">
+                    <h3>🏅 The Captain</h3>
+                    <p>VIP Platform Access + Exclusive Team Kenya merchandise item</p>
+                </div>
+            </div>
+
+            <div class="tier-card gold">
+                <div class="tier-count">15</div>
+                <div class="tier-info">
+                    <h3>🌍 The Diaspora Champion</h3>
+                    <p>International shipping covered + Exclusive Diaspora Member Badge</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="track-divider"></div>
+
+    <!-- Help / Contact -->
+    <section class="help-section">
+        <p>Didn't receive the email? Check your spam folder or contact us at <a href="mailto:info@replicadx.net">info@replicadx.net</a></p>
+        <div class="tagline">Asante Sana — Team Kenya Starts With You</div>
+        <span class="flag">🇰🇪</span>
+    </section>
+
+</body>
+</html>

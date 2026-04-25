@@ -1,0 +1,15 @@
+nohup: ignoring input
+INFO:     Will watch for changes in these directories: ['/home/ubuntu/viral_loops_integration']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [60394] using StatReload
+INFO:     Started server process [60397]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:48430 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48446 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48458 - "GET /dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48472 - "GET /thankyou HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56606 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56618 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56626 - "GET /thankyou HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56638 - "GET /dashboard HTTP/1.1" 200 OK
