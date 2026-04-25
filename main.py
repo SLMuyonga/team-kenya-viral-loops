@@ -41,6 +41,7 @@ VL_API_TOKEN = os.getenv("VL_API_TOKEN", "")
 VL_CAMPAIGN_ID = os.getenv("VL_CAMPAIGN_ID", "")
 TALLY_SIGNING_SECRET = os.getenv("TALLY_SIGNING_SECRET", "")
 BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
+RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
 
 VL_API_BASE = "https://app.viral-loops.com/api/v3"
 
@@ -277,36 +278,28 @@ async def send_referral_email(email: str, name: str, referral_code: str):
     </div>
     """
 
-    # Log the email (actual SMTP sending configured in production)
+    # Log the email
     logger.info(f"📧 Referral email queued for {email} — link: {referral_link}")
 
-    # Try SMTP if configured
-    smtp_host = os.getenv("SMTP_HOST")
-    smtp_user = os.getenv("SMTP_USER")
-    smtp_password = os.getenv("SMTP_PASSWORD")
-
-    if smtp_host and smtp_user and smtp_password:
+    # Send via Resend API
+    if RESEND_API_KEY:
         try:
-            import smtplib
-            from email.mime.text import MIMEText
-            from email.mime.multipart import MIMEMultipart
+            import resend
+            resend.api_key = RESEND_API_KEY
 
-            msg = MIMEMultipart("alternative")
-            msg["Subject"] = subject
-            msg["From"] = f"Team Kenya <{smtp_user}>"
-            msg["To"] = email
-            msg.attach(MIMEText(html_body, "html"))
+            params = {
+                "from": "Team Kenya <onboarding@resend.dev>",
+                "to": [email],
+                "subject": subject,
+                "html": html_body,
+            }
 
-            with smtplib.SMTP(smtp_host, int(os.getenv("SMTP_PORT", 587))) as server:
-                server.starttls()
-                server.login(smtp_user, smtp_password)
-                server.sendmail(smtp_user, email, msg.as_string())
-
-            logger.info(f"✅ Email sent to {email}")
+            email_response = resend.Emails.send(params)
+            logger.info(f"✅ Email sent to {email} via Resend — id: {email_response.get('id', 'unknown')}")
         except Exception as e:
-            logger.error(f"❌ Email failed for {email}: {e}")
+            logger.error(f"❌ Email failed for {email} via Resend: {e}")
     else:
-        logger.info("⚠️ SMTP not configured — email logged but not sent")
+        logger.warning("⚠️ RESEND_API_KEY not configured — email logged but not sent")
 
     return {"subject": subject, "referral_link": referral_link}
 
