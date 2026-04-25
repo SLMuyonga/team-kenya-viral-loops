@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: team-kenya-referral
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: VL_PUBLIC_TOKEN
+        value: bNYJgQFyPUfgJaRTx4If8QAqq9I
+      - key: VL_API_TOKEN
+        value: OU0MJzas9lpqSC9YfAvyQOWSnEM
+      - key: VL_CAMPAIGN_ID
+        value: bNYJgQFyPUfgJaRTx4If8QAqq9I
+      - key: TALLY_FORM_ID
+        value: eqN5PQ
+      - key: BASE_URL
+        sync: false
+      - key: PORT
+        value: "10000"
